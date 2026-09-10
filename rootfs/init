@@ -1,0 +1,16 @@
+#!/bin/sh
+
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs devtmpfs /dev
+
+echo
+echo "================================"
+echo "        Welcome to MyOS"
+echo "================================"
+echo
+echo "Kernel + BusyBox booted!"
+echo
+
+/bin/fbtest
+exec /bin/sh

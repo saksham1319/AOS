@@ -1,0 +1,47 @@
+# Build output
+build/
+
+# Linux kernel source
+kernel-src/
+
+# BusyBox source
+busybox/
+
+# Downloaded dependencies
+downloads/
+
+# Generated initramfs
+*.cpio
+*.cpio.gz
+
+# Compiled objects / binaries
+*.o
+*.a
+*.so
+*.bc
+*.ll
+
+# Kernel build artifacts
+*.cmd
+Module.symvers
+modules.order
+System.map
+
+# Kernel configuration backup
+kernel-config.old
+
+# Temporary files
+*.tmp
+*.log
+*~
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Python cache (future tooling)
+__pycache__/
+*.pyc
