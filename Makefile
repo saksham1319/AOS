@@ -1,24 +1,32 @@
-.PHONY: all setup build kernel busybox rootfs run clean
+.PHONY: help setup kernel devboot devboot-run image disk clean
 
-all: build
+help:
+	@echo "setup        install host build tools (uses sudo)"
+	@echo "kernel       build the AOS kernel into build/Image"
+	@echo "devboot      build kernel + BusyBox initramfs test harness"
+	@echo "devboot-run  boot the test harness in QEMU"
+	@echo "image        build the AOS OS image with Podman"
+	@echo "disk         turn the OS image into build/disk/disk.qcow2 (uses sudo)"
+	@echo "clean        remove build/"
 
 setup:
-	./scripts/setup.sh
-
-build:
-	./scripts/build.sh
+	./devboot/setup.sh
 
 kernel:
-	./scripts/build-kernel.sh
+	./kernel/build.sh
 
-busybox:
-	./scripts/build-busybox.sh
+devboot: kernel
+	./devboot/build-busybox.sh
+	./devboot/build-rootfs.sh
 
-rootfs:
-	./scripts/build-rootfs.sh
+devboot-run:
+	./devboot/run.sh
 
-run:
-	./scripts/run.sh
+image:
+	./image/build.sh
+
+disk:
+	./image/build-disk.sh
 
 clean:
 	rm -rf build

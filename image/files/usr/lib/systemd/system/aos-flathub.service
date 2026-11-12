@@ -1,0 +1,12 @@
+[Unit]
+Description=Add the Flathub remote on first boot
+ConditionPathExists=!/var/lib/flatpak/.aos-flathub-added
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/flatpak remote-add --system --if-not-exists flathub /usr/share/aos/flathub.flatpakrepo
+ExecStartPost=/usr/bin/touch /var/lib/flatpak/.aos-flathub-added
+
+[Install]
+WantedBy=multi-user.target

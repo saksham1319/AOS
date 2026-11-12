@@ -1,0 +1,7 @@
+# Development variant of the AOS image: adds a login so a disk built from it can be used
+# in a VM. Never publish this image. Release images get their user from first-run setup
+# (docs/PLAN.md, P4).
+ARG BASE=localhost/aos:dev
+FROM ${BASE}
+
+RUN useradd -m -G wheel aos && echo "aos:aos" | chpasswd

@@ -1,26 +1,13 @@
 #!/bin/sh
+# Boot build/Image with build/rootfs.cpio.gz in QEMU. Display is on VNC :0, console on stdio.
 set -eu
-
 ROOT="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-
 KERNEL="$ROOT/build/Image"
 ROOTFS="$ROOT/build/rootfs.cpio.gz"
 
-if [ ! -f "$KERNEL" ]; then
-    echo "ERROR: Kernel not built."
-    echo "Run: make"
-    exit 1
-fi
-
-if [ ! -f "$ROOTFS" ]; then
-    echo "ERROR: RootFS not built."
-    echo "Run: make"
-    exit 1
-fi
-
-echo "================================"
-echo "          Starting MyOS"
-echo "================================"
+for f in "$KERNEL" "$ROOTFS"; do
+    [ -f "$f" ] || { echo "missing $f; run: make devboot" >&2; exit 1; }
+done
 
 exec qemu-system-aarch64 \
     -M virt \

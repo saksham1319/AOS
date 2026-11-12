@@ -1,0 +1,7 @@
+NAME="AOS"
+PRETTY_NAME="AOS (development)"
+ID=aos
+ID_LIKE=fedora
+VERSION_ID=0.0
+VARIANT_ID=desktop
+HOME_URL="https://github.com/saksham1319/AOS"

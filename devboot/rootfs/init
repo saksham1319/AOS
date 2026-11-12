@@ -6,7 +6,7 @@ mount -t devtmpfs devtmpfs /dev
 
 echo
 echo "================================"
-echo "        Welcome to MyOS"
+echo "        Welcome to AOS "
 echo "================================"
 echo
 echo "Kernel + BusyBox booted!"

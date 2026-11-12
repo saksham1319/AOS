@@ -2,10 +2,10 @@
 build/
 
 # Linux kernel source
-kernel-src/
+kernel/src/
 
 # BusyBox source
-busybox/
+devboot/busybox/
 
 # Downloaded dependencies
 downloads/
@@ -28,7 +28,7 @@ modules.order
 System.map
 
 # Kernel configuration backup
-kernel-config.old
+kernel/config.old
 
 # Temporary files
 *.tmp

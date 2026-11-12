@@ -1,0 +1,38 @@
+# AOS OS image.
+#
+# The base is an implementation detail. Nothing outside this file may depend on Fedora.
+ARG FEDORA_VERSION=44
+FROM quay.io/fedora/fedora-bootc:${FEDORA_VERSION}
+
+# Desktop session. KWin is the compositor AOS keeps; the Plasma shell is the stand-in that
+# the AOS shell replaces piece by piece.
+RUN dnf -y install \
+        kwin plasma-workspace plasma-desktop sddm sddm-breeze \
+        xorg-x11-server-Xwayland xdg-desktop-portal-kde \
+        plasma-nm plasma-pa bluedevil kscreen powerdevil \
+        konsole dolphin \
+    && dnf clean all
+
+# Hardware, audio, network, firmware.
+RUN dnf -y install \
+        mesa-dri-drivers mesa-vulkan-drivers \
+        pipewire pipewire-pulseaudio wireplumber \
+        NetworkManager-wifi bluez fwupd tuned-ppd \
+    && dnf clean all
+
+# Apps and developer environments.
+RUN dnf -y install \
+        flatpak podman distrobox git \
+    && dnf clean all
+
+COPY files/ /
+
+# Flathub is added on first boot by aos-flathub.service, because /var in the image is only
+# copied to disk at install time and never updated afterwards.
+RUN curl -fsSL -o /usr/share/aos/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo \
+    && systemctl enable sddm.service aos-flathub.service \
+    && systemctl set-default graphical.target
+
+# Leave nothing behind in runtime and log directories, then check the image.
+RUN rm -rf /var/log/dnf5.log* /var/cache/* /var/lib/dnf /run/* /tmp/* 2>/dev/null; \
+    bootc container lint
